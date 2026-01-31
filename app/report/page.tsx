@@ -17,6 +17,16 @@ export default function ReportIssuePage() {
       setUser(data.session?.user ?? null);
     });
   }, []);
+  async function autoCategorize(title: string, description: string) {
+  const res = await fetch("/api/ai/categorize", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title, description }),
+  });
+
+  return res.json();
+}
+
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -46,6 +56,12 @@ export default function ReportIssuePage() {
     }
 
     setLoading(false);
+    
+    const aiResult = await autoCategorize(title, description);
+
+    setCategory(aiResult.category);
+    setPriority(aiResult.priority);
+
   }
 
   return (
