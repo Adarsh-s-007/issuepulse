@@ -1,36 +1,44 @@
 "use client";
 
+import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
-const TEST_EMAIL = "student2@test.com";
+export default function AuthPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-const TEST_PASSWORD = "password123";
+  async function handleLogin() {
+    setLoading(true);
 
-export default function HomePage() {
-  async function handleSignup() {
-    const { error } = await supabase.auth.signUp({
-      email: TEST_EMAIL,
-      password: TEST_PASSWORD,
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
     });
 
+    setLoading(false);
+
     if (error) {
-      alert("Signup error: " + error.message);
+      alert(error.message);
     } else {
-      alert("Signup successful (or user already exists). Now login.");
+      alert("Login successful");
     }
   }
 
-  async function handleLogin() {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: TEST_EMAIL,
-      password: TEST_PASSWORD,
+  async function handleSignup() {
+    setLoading(true);
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
     });
 
+    setLoading(false);
+
     if (error) {
-      alert("Login error: " + error.message);
+      alert(error.message);
     } else {
-      alert("Login successful!");
-      console.log("SESSION:", data.session);
+      alert("Signup successful. You can now login.");
     }
   }
 
@@ -40,37 +48,53 @@ export default function HomePage() {
   }
 
   return (
-    <main className="max-w-md mx-auto p-6 space-y-4">
-      <h1 className="text-2xl font-bold">IssuePulse Auth Test</h1>
+    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center p-6">
+      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-6 text-center text-indigo-700">
+          IssuePulse Login
+        </h1>
 
-      <p className="text-sm text-gray-600">
-        Test user: <b>{TEST_EMAIL}</b>
-      </p>
+        <div className="space-y-4">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border rounded px-3 py-2"
+          />
 
-      <button
-        onClick={handleSignup}
-        className="w-full bg-black text-white p-2 rounded"
-      >
-        Test Signup
-      </button>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full border rounded px-3 py-2"
+          />
 
-      <button
-        onClick={handleLogin}
-        className="w-full bg-black text-white p-2 rounded"
-      >
-        Test Login
-      </button>
+          <button
+            onClick={handleLogin}
+            disabled={loading}
+            className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition"
+          >
+            {loading ? "Loading..." : "Login"}
+          </button>
 
-      <button
-        onClick={handleLogout}
-        className="w-full bg-gray-300 p-2 rounded"
-      >
-        Test Logout
-      </button>
+          <button
+            onClick={handleSignup}
+            disabled={loading}
+            className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition"
+          >
+            {loading ? "Loading..." : "Sign Up"}
+          </button>
 
-      <p className="text-sm text-gray-500">
-        After login, go to <code>/report</code>
-      </p>
+          <button
+            onClick={handleLogout}
+            className="w-full text-sm text-gray-500 underline"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
     </main>
   );
 }
