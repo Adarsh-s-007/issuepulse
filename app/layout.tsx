@@ -9,21 +9,35 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-gray-50 text-gray-900">
-        {/* Navbar */}
-        <nav className="bg-white border-b">
+        {/* Colorful Navbar */}
+        <nav className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 shadow-lg">
           <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <Link href="/" className="text-xl font-bold">
-              IssuePulse
+            {/* Logo */}
+            <Link
+              href="/"
+              className="text-2xl font-extrabold tracking-wide text-white"
+            >
+              ISSUE<span className="text-yellow-300">PULSE</span>
             </Link>
 
-            <div className="space-x-6 text-sm font-medium">
-              <Link href="/report" className="hover:text-black text-gray-600">
+            {/* Nav links */}
+            <div className="space-x-6 text-sm font-semibold">
+              <Link
+                href="/report"
+                className="text-white/90 hover:text-white transition"
+              >
                 Report Issue
               </Link>
-              <Link href="/my-issues" className="hover:text-black text-gray-600">
+              <Link
+                href="/my-issues"
+                className="text-white/90 hover:text-white transition"
+              >
                 My Issues
               </Link>
-              <Link href="/admin" className="hover:text-black text-gray-600">
+              <Link
+                href="/admin"
+                className="text-white/90 hover:text-white transition"
+              >
                 Admin
               </Link>
             </div>
