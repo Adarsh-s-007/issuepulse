@@ -1,5 +1,6 @@
 #  IssuePulse  
 ### AI-Powered Smart Hostel Issue Tracking Platform
+###Video link :- https://www.youtube.com/watch?v=Q592jT4ia6o
 
 IssuePulse is a **modern, AI-assisted, visually rich web platform** designed to transform how hostel and campus issues are reported, tracked, and resolved.
 
